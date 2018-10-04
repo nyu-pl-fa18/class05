@@ -3,9 +3,12 @@
 ; Church Booleans
 (define true (lambda (x y) x))
 (define false (lambda (x y) y))
+
 (define and (lambda (a b) (a b false)))
 (define or (lambda (a b) (a true b)))
 (define not (lambda (b) (b false true)))
+
+(define ite (lambda (b x y) (b x y)))
 
 (define evalbool (lambda (b) (b #t #f)))
 
@@ -47,20 +50,20 @@
 
 
 ; Y Combinator
-(define Y (lambda (f) ((lambda (x) (f (x x))) (lambda (x) (f (x x))))))
+(define Y (lambda (F) ((lambda (X) (F (X X))) (lambda (X) (F (X X))))))
 
 ; this does not terminate because of applicative-order evaluation of the Y combinator
 ;(define fac (Y Fac))
 ;(evalnum (fac three))
 
-; Y Combinator (for applicative-order)
+; Y Combinator (version for applicative-order)
 ; the additional lambda abstractions prevent the premature evaluation of the Y combinator
 (define fix
   (lambda (F)
       ((lambda (X)
-         (F (lambda (n) (lambda (ff) (lambda (xx) ((((X X) n) ff) xx))))))
+         (F (lambda (n) (lambda (f) (lambda (x) ((((X X) n) f) x))))))
        (lambda (X)
-         (F (lambda (n) (lambda (ff) (lambda (xx) ((((X X) n) ff) xx)))))))))
+         (F (lambda (n) (lambda (f) (lambda (x) ((((X X) n) f) x)))))))))
 
 ; The factorial function
 (define fac (fix Fac))
@@ -68,7 +71,4 @@
 (evalnum (fac three))
 (evalnum (fac four))
 (evalnum (fac five))
-
-
-
 
