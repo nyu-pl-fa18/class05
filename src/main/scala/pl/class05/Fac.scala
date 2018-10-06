@@ -4,8 +4,8 @@ import scala.annotation.tailrec
 
 object Fac {
   
-  def fac(n: Int): Int =
-    if (n == 0) 1 else n * fac(n - 1)
+  def facNaive(n: Int): Int =
+    if (n == 0) 1 else n * facNaive(n - 1)
 
   def facLoop(n0: Int): Int = {
     var acc = 1
@@ -23,5 +23,5 @@ object Fac {
     if (n == 0) acc else facTail(n * acc, n - 1)
   }
 
-  //def fac(n0: Int): Int = facTail(1, n0)
+  def fac(n0: Int): Int = facTail(1, n0)
 }
